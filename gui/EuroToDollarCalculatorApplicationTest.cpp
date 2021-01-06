@@ -4,14 +4,8 @@
 
 TEST_F(EuroToDollarCalculatorApplicationTest, GetSetEuro)
 {
-  
-
-   
     objectUnderTest.set_euro("20");
-   
     EXPECT_EQ(objectUnderTest.get_euro(), "20");
-  
-
 }
 
 TEST_F(EuroToDollarCalculatorApplicationTest, GetSetDollar)
@@ -39,16 +33,15 @@ TEST_F(EuroToDollarCalculatorApplicationTest, GetSetRechnenState)
 
 
 TEST_F(EuroToDollarCalculatorApplicationTest, RechnenButtonClick) {
+  auto btn_rechnen = get_btn_rechnen();
 
-    ui_.btn_rechnen->setEnabled(true);
+  btn_rechnen->setEnabled(true);
 
     EXPECT_CALL(p,rechnen()).Times(1);
    
-    QSignalSpy rechnenSpy(ui_.btn_rechnen, SIGNAL(clicked()));
+    QSignalSpy rechnenSpy(btn_rechnen, SIGNAL(clicked()));
 
-    // objectUnderTest.ui.btn_rechnen->animateClick();
-
-    QTest::mouseClick(ui_.btn_rechnen, Qt::LeftButton);
+    QTest::mouseClick(btn_rechnen, Qt::LeftButton);
     
 
     EXPECT_EQ(rechnenSpy.count(), 1);
@@ -57,37 +50,25 @@ TEST_F(EuroToDollarCalculatorApplicationTest, RechnenButtonClick) {
 }
 
 TEST_F(EuroToDollarCalculatorApplicationTest, BeendenButtonClick) {
+  auto btn_beenden = get_btn_beenden();
 
-    
+  EXPECT_CALL(p, beenden()).Times(1);
 
-    EXPECT_CALL(p, beenden()).Times(1);
+  QSignalSpy spy(btn_beenden, SIGNAL(clicked()));
 
-    QSignalSpy rechnenSpy(ui_.btn_beenden, SIGNAL(clicked()));
+  QTest::mouseClick(btn_beenden, Qt::LeftButton);
 
-    
-
-    QTest::mouseClick(ui_.btn_beenden, Qt::LeftButton);
-
-
-    EXPECT_EQ(rechnenSpy.count(), 1);
-  
-
+  EXPECT_EQ(spy.count(), 1);
 }
 
 TEST_F(EuroToDollarCalculatorApplicationTest, EuroTextChanged) {
+  auto txt_euro = get_txt_euro();
 
+  EXPECT_CALL(p, update_rechnen_action_state()).Times(1);
 
+  QSignalSpy spy(txt_euro, SIGNAL(textChanged(const QString&)));
 
-    EXPECT_CALL(p, update_rechnen_action_state()).Times(1);
+  QTest::keyClick(txt_euro,'a');
 
-    QSignalSpy textChangedSpy(ui_.txt_euro, SIGNAL(textChanged(const QString&)));
-
-
-
-   
-    QTest::keyClick(ui_.txt_euro,'a');
-
-    EXPECT_EQ(textChangedSpy.count(), 1);
-   
-
+  EXPECT_EQ(spy.count(), 1);
 }

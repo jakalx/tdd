@@ -8,8 +8,6 @@ class EuroToDollarCalculatorApplication : public QMainWindow, public euro_to_dol
 {
 	Q_OBJECT
 
-friend class EuroToDollarCalculatorApplicationTest;
-
 private:
 	euro_to_dollar_presenter* presenter_{nullptr};
 
